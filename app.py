@@ -1,6 +1,7 @@
 from flask import Flask
 import config
 import api
+from models import db
 import logging
 
 # logging.basicConfig(level=logging.DEBUG,
@@ -16,6 +17,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('config')
     api.v1.api.init_app(app)
+    db.init_app(app)
 
     return app
 
