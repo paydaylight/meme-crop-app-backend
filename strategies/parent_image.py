@@ -3,7 +3,7 @@ from models import Image
 import uuid
 
 
-class OriginalImage:
+class ParentImage:
     def __init__(self, image_path, caption_text):
         self.manipulator = ImageManipulator(image_path, caption_text)
 

@@ -3,7 +3,7 @@ from models import Image
 import uuid
 
 
-class DerivativeImages:
+class DerivativeImage:
     def __init__(self, image_path, caption_text, mode={'horizontal': True}):
         self.manipulator = ImageManipulator(image_path, caption_text)
 
