@@ -21,6 +21,16 @@ def concat_horizontal(im1, im2):
     dst.paste(im2, (im1.width, 0))
     return dst
 
+def horizontal_crop():
+    per_crop_height = height / len(original_caption_hash.keys())
+    print(per_crop_height)
+    iterator = 0
+
+    for char in original_caption_hash:
+        cropped_part = original.crop((0, iterator, width, iterator + per_crop_height))
+        original_caption_hash[char] = cropped_part
+        iterator += per_crop_height
+
 original_caption = "shierke"
 generate_caption = ["shish", "erkesh"]
 
@@ -40,7 +50,8 @@ width, height = original.size   # Get dimensions
 vertical_toggle = False
 
 if not vertical_toggle:
-    per_crop_height = height/len(original_caption_hash.keys())
+    # per_crop_height = height/len(original_caption_hash.keys())
+    per_crop_height = height/len(original_caption)
     print(per_crop_height)
     iterator = 0
 

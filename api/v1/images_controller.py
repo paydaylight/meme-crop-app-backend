@@ -1,9 +1,15 @@
 from flask_restful import Resource
+from models import Image
 
-
-class UploadImage(Resource):
+class UploadOriginalImage(Resource):
     def post(self):
         print("here!")
-        return {'msg': "a"}, 200
+        return {'success': True}, 200
+
+
+class GetImageFromCaption(Resource):
+    def get(self):
+        target_image = Image.query("")
+        return {'success': True}, 200
 
 
