@@ -121,7 +121,7 @@ venv.bak/
 /site
 
 /uploads
-
+.DS_Store
 # mypy
 .mypy_cache/
 .dmypy.json
