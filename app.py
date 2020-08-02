@@ -1,7 +1,7 @@
 from flask import Flask
 import config
 import api
-from models import db
+from models import db, migrate
 import logging
 
 # logging.basicConfig(level=logging.DEBUG,
@@ -13,11 +13,12 @@ logger = logging.getLogger()
 
 
 def create_app():
-      # logger.info(f'Starting app in {config.APP_ENV} environment')
+    # logger.info(f'Starting app in {config.APP_ENV} environment')
     app = Flask(__name__)
     app.config.from_object('config')
     api.v1.api.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
 
     return app
 

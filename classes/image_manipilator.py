@@ -15,19 +15,22 @@ class ImageManipulator:
         for char in self.caption_chars:
             self.caption_dict[char] = None
 
-    def caption_image(self, text, width, height):
+    @staticmethod
+    def caption_image(text, width, height):
         img = Image.new('RGB', (width, height), color="white")
         d = ImageDraw.Draw(img)
         d.text((0, 0), text, fill=(255, 0, 0), align="center")
         return img
 
-    def concat_vertical(self, im1, im2):
+    @staticmethod
+    def concat_vertical(im1, im2):
         dst = Image.new('RGB', (im1.width, im1.height + im2.height))
         dst.paste(im1, (0, 0))
         dst.paste(im2, (0, im1.height))
         return dst
 
-    def concat_horizontal(self, im1, im2):
+    @staticmethod
+    def concat_horizontal(im1, im2):
         dst = Image.new('RGB', (im1.width + im2.width, im1.height))
         dst.paste(im1, (0, 0))
         dst.paste(im2, (im1.width, 0))

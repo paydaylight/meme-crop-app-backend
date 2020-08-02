@@ -1,4 +1,4 @@
-from models import Image as ImageModel
+from models.image import Image as ImageModel
 from classes import ImageManipulator
 from PIL import Image
 class FinishedImage:

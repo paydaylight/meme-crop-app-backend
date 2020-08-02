@@ -1,3 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from models.image import Image
+from flask_migrate import Migrate
+
 db = SQLAlchemy()
+migrate = Migrate()

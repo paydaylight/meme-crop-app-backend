@@ -1,1 +1,1 @@
-import services.image_manipulation
+from strategies.parent_image import ParentImage

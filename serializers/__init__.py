@@ -1,0 +1,1 @@
+from serializers.image_serializer import serialize_image
