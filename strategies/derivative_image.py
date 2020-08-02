@@ -4,12 +4,11 @@ import uuid
 
 
 class DerivativeImage:
-    def __init__(self, mode={'horizontal': True}):
+    def __init__(self, mode={'vertical': True}):
         self.mode = mode
 
-    def call(self, image_id, new_caption):
-        parent_image = Image.query.get(image_id)
-        og_image = parent_image.parent
+    def call(self, parent_id, new_caption):
+        og_image = Image.query.get(Image.query.filter(Image.id == parent_id).first().parent_id)
 
         mp = ImageManipulator(og_image.url, new_caption)
 
@@ -27,7 +26,6 @@ class DerivativeImage:
 
         derivative_image_with_caption.save(mp.image_path(new_id))
         stored_derivative_image.save()
-
         return stored_derivative_image
 
     def _derivative_image_with_caption(self, image, mp):
@@ -35,9 +33,9 @@ class DerivativeImage:
         return mp.concat_vertical(image, caption_image)
 
     def functions_from_mode(self, mp):
-        if self.mode['horizontal']:
+        if self.mode['vertical']:
             return mp.populate_dict_vertical, mp.map_dict_to_vertical_caption
-        elif self.mode['vertical']:
+        elif self.mode['horizontal']:
             return mp.populate_dict_horizontal, mp.map_dict_to_horizontal_caption
         else:
             return None, None

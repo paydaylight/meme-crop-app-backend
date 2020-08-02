@@ -11,12 +11,17 @@ class Image(db.Model):
     url = db.Column(db.String())
     finished = db.Column(db.Boolean(), default=False)
     created_at = db.Column(db.DateTime(), default=lambda: datetime.now().strftime("%Y-%m-%d, %H:%M:%S"))
-    derivatives = db.relationship('Image', backref='parent', lazy='joined', remote_side=[id])
+    derivatives = db.relationship('Image',
+                                  backref=db.backref('parent', uselist=False),
+                                  lazy='joined',
+                                  remote_side=[id],
+                                  primaryjoin="Image.id == Image.parent_id",
+                                  foreign_keys=[parent_id])
 
     def save(self):
         db.session.add(self)
         db.session.commit()
 
     def __repr__(self):
-        return f"<Image id={self.id} caption={self.caption} url={self.url}>"
+        return f"<Image id={self.id} caption={self.caption} url={self.url} parent_id={self.parent_id}>"
 

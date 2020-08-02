@@ -59,7 +59,7 @@ class ImageManipulator:
         current = self.caption_dict[new_caption_list[0]]
 
         for char in new_caption_list[1:]:
-            current = self.concat_vertical(current, self.caption_dict[char])
+            current = self.concat_horizontal(current, self.caption_dict[char])
 
         return current
 
@@ -68,7 +68,7 @@ class ImageManipulator:
         current = self.caption_dict[new_caption_list[0]]
 
         for char in new_caption_list[1:]:
-            current = self.concat_horizontal(current, self.caption_dict[char])
+            current = self.concat_vertical(current, self.caption_dict[char])
 
         return current
 

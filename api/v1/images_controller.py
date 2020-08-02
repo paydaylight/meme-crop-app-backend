@@ -2,9 +2,10 @@ from flask_restful import Resource, reqparse
 import werkzeug
 from models.image import Image
 import uuid
-from strategies import ParentImage
+from strategies import ParentImage, DerivativeImage
 from flask import jsonify, request
 import serializers
+
 
 class UploadOriginalImage(Resource):
     def post(self):
@@ -22,14 +23,27 @@ class UploadOriginalImage(Resource):
         strategy = ParentImage(og_file_path, caption)
         og_image_with_caption = strategy.call()
 
-        # print(og_image_with_caption)
-
         return serializers.serialize_image(og_image_with_caption)
 
 
 class GetImageFromCaption(Resource):
-    def get(self):
-        target_image = Image.query("")
-        return {'success': True}, 200
+    def get(self, parent_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('caption', type=str, required=True, help="Caption cannot be blank!")
+        parser.add_argument('horizontal', type=bool)
+        args = parser.parse_args()
+        caption = args['caption']
+
+        if args['horizontal']:
+            mode = {'horizontal': True}
+        else:
+            mode = {'vertical': True}
+
+        print(mode, args)
+
+        strategy = DerivativeImage(mode)
+        derivative_image = strategy.call(parent_id, caption)
+
+        return serializers.serialize_image(derivative_image)
 
 
