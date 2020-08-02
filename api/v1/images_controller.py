@@ -27,7 +27,7 @@ class UploadOriginalImage(Resource):
 
 
 class GetImageFromCaption(Resource):
-    def get(self, parent_id):
+    def post(self, parent_id):
         parser = reqparse.RequestParser()
         parser.add_argument('caption', type=str, required=True, help="Caption cannot be blank!")
         parser.add_argument('vertical', type=str)
@@ -39,11 +39,15 @@ class GetImageFromCaption(Resource):
         else:
             mode = {'horizontal': True, 'vertical': False}
 
-        print(mode, args)
-
         strategy = DerivativeImage(mode)
         derivative_image = strategy.call(parent_id, caption)
 
         return serializers.serialize_image(derivative_image)
+
+
+class ImageCombo(Resource):
+    def post(self, parent_id):
+        pass
+
 
 
