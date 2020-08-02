@@ -57,7 +57,7 @@ class ImageManipulator:
             iterator += per_crop_width
 
     def map_dict_to_vertical_caption(self, new_caption):
-        new_caption_list = list(new_caption)
+        new_caption_list = list(new_caption.replace(' ', ''))
         current = self.caption_dict[new_caption_list[0]]
 
         for char in new_caption_list[1:]:
@@ -66,12 +66,12 @@ class ImageManipulator:
         return current
 
     def map_dict_to_horizontal_caption(self, new_caption):
-        new_caption_list = list(new_caption)
+        new_caption_list = list(new_caption.replace(' ', ''))
         current = self.caption_dict[new_caption_list[0]]
 
         for char in new_caption_list[1:]:
             current = self.concat_vertical(current, self.caption_dict[char])
-        current.show()
+
         return current
 
     def image_path(self, img_id):

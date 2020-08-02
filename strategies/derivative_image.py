@@ -8,7 +8,8 @@ class DerivativeImage:
         self.mode = mode
 
     def call(self, parent_id, new_caption):
-        og_image = Image.query.get(Image.query.filter(Image.id == parent_id).first().parent_id)
+        parent_image = Image.query.get(parent_id)
+        og_image = Image.query.get(parent_image.parent_id)
 
         mp = ImageManipulator(og_image.url, new_caption)
 
@@ -22,7 +23,7 @@ class DerivativeImage:
         stored_derivative_image = Image(id=new_id,
                                         caption=mp.caption_text,
                                         url=mp.image_path(new_id),
-                                        parent_id=og_image.id)
+                                        parent_id=parent_image.id)
 
         derivative_image_with_caption.save(mp.image_path(new_id))
         stored_derivative_image.save()

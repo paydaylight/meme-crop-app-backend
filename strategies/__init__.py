@@ -1,2 +1,3 @@
 from strategies.parent_image import ParentImage
 from strategies.derivative_image import DerivativeImage
+from strategies.combo_image import ComboImage

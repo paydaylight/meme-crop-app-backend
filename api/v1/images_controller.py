@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 import werkzeug
 from models.image import Image
 import uuid
-from strategies import ParentImage, DerivativeImage
+from strategies import ParentImage, DerivativeImage, ComboImage
 from flask import jsonify, request
 import serializers
 
@@ -47,7 +47,9 @@ class GetImageFromCaption(Resource):
 
 class ImageCombo(Resource):
     def post(self, parent_id):
-        pass
+        strategy = ComboImage()
+        strategy.call(parent_id)
+        return {'success': True}, 200
 
 
 
