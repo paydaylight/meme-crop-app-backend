@@ -1,5 +1,4 @@
-from PIL import Image
-from PIL import ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 UPLOADS = "uploads"
 
@@ -18,10 +17,11 @@ class ImageManipulator:
     @staticmethod
     def caption_image(text, width, height=50):
         img = Image.new('RGB', (width, height), color="white")
+        font = ImageFont.truetype("assets/fonts/Montserrat/Montserrat-Light.ttf", 40)
         d = ImageDraw.Draw(img)
-        w, h = d.textsize(text)
+        w, h = d.textsize(text, font=font)
         h += int(h * 0.21)
-        d.text(((width - w) / 2, (height - h) / 2), text=text, fill='black')
+        d.text(((width - w) / 2, (height - h) / 2), text=text, fill='black', font=font)
         return img
 
     @staticmethod
@@ -79,7 +79,7 @@ class ImageManipulator:
 
     def resize(self, image):
         size = 432, 540
-        image.thumbnail(size, Image.ANTIALIAS)
+        image.thumbnail(size, Image.LANCZOS)
         return image
 
 
