@@ -7,19 +7,21 @@ UPLOADS = "uploads"
 class ImageManipulator:
     def __init__(self, image_path, caption_text):
         self.image = Image.open(image_path)
-        self.width, self.height = self.image.size
-        self.caption_text = caption_text
-        self.caption_chars = list(caption_text)
+        # self.width, self.height = self.image.size
+        self.caption_text = caption_text.strip()
+        self.caption_chars = list(caption_text.replace(' ', ''))
         self.caption_dict = {}
 
         for char in self.caption_chars:
             self.caption_dict[char] = None
 
     @staticmethod
-    def caption_image(text, width, height):
+    def caption_image(text, width, height=50):
         img = Image.new('RGB', (width, height), color="white")
         d = ImageDraw.Draw(img)
-        d.text((0, 0), text, fill=(255, 0, 0), align="center")
+        w, h = d.textsize(text)
+        h += int(h * 0.21)
+        d.text(((width - w) / 2, (height - h) / 2), text=text, fill='black')
         return img
 
     @staticmethod
@@ -36,21 +38,21 @@ class ImageManipulator:
         dst.paste(im2, (im1.width, 0))
         return dst
 
-    def populate_dict_horizontal(self):
-        per_crop_height = self.height / len(self.caption_text)
+    def populate_dict_horizontal(self, caption_text):
+        per_crop_height = self.image.height / len(caption_text.replace(' ', ''))
         iterator = 0
 
         for char in self.caption_dict:
-            cropped_part = self.image.crop((0, iterator, self.width, iterator + per_crop_height))
+            cropped_part = self.image.crop((0, iterator, self.image.width, iterator + per_crop_height))
             self.caption_dict[char] = cropped_part
             iterator += per_crop_height
 
-    def populate_dict_vertical(self):
-        per_crop_width = self.width / len(self.caption_text)
+    def populate_dict_vertical(self, caption_text):
+        per_crop_width = self.image.width / len(caption_text.replace(' ', ''))
         iterator = 0
 
         for char in self.caption_dict:
-            cropped_part = self.image.crop((iterator, 0, iterator + per_crop_width, self.height))
+            cropped_part = self.image.crop((iterator, 0, iterator + per_crop_width, self.image.height))
             self.caption_dict[char] = cropped_part
             iterator += per_crop_width
 
@@ -69,9 +71,15 @@ class ImageManipulator:
 
         for char in new_caption_list[1:]:
             current = self.concat_vertical(current, self.caption_dict[char])
-
+        current.show()
         return current
 
     def image_path(self, img_id):
         return f"{UPLOADS}/{img_id}.png"
+
+    def resize(self, image):
+        size = 432, 540
+        image.thumbnail(size, Image.ANTIALIAS)
+        return image
+
 

@@ -30,14 +30,14 @@ class GetImageFromCaption(Resource):
     def get(self, parent_id):
         parser = reqparse.RequestParser()
         parser.add_argument('caption', type=str, required=True, help="Caption cannot be blank!")
-        parser.add_argument('horizontal', type=bool)
+        parser.add_argument('vertical', type=str)
         args = parser.parse_args()
         caption = args['caption']
 
-        if args['horizontal']:
-            mode = {'horizontal': True}
+        if args['vertical']:
+            mode = {'vertical': True, 'horizontal': False}
         else:
-            mode = {'vertical': True}
+            mode = {'horizontal': True, 'vertical': False}
 
         print(mode, args)
 

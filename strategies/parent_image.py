@@ -10,8 +10,10 @@ class ParentImage:
 
     def call(self):
         og_image = self.create_og_image()
+
+        self.mp.resize(self.mp.image)
+
         parent_image = self.create_og_image_with_caption(og_image.id)
-        print(parent_image, "in parent_image")
         return parent_image
 
     def create_og_image(self):
@@ -33,5 +35,5 @@ class ParentImage:
         return parent_image
 
     def _og_image_with_caption(self):
-        caption_image = self.mp.caption_image(self.mp.caption_text, self.mp.width, 50)
+        caption_image = self.mp.caption_image(self.mp.caption_text, self.mp.image.width, 50)
         return self.mp.concat_vertical(self.mp.image, caption_image)
