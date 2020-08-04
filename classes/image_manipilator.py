@@ -26,14 +26,14 @@ class ImageManipulator:
 
     @staticmethod
     def concat_vertical(im1, im2):
-        dst = Image.new('RGB', (im1.width, im1.height + im2.height))
+        dst = Image.new('RGB', (im1.width, im1.height + im2.height), (255, 255, 255))
         dst.paste(im1, (0, 0))
         dst.paste(im2, (0, im1.height))
         return dst
 
     @staticmethod
     def concat_horizontal(im1, im2):
-        dst = Image.new('RGB', (im1.width + im2.width, im1.height))
+        dst = Image.new('RGB', (im1.width + im2.width, im1.height), (255, 255, 255))
         dst.paste(im1, (0, 0))
         dst.paste(im2, (im1.width, 0))
         return dst
@@ -77,8 +77,7 @@ class ImageManipulator:
     def image_path(self, img_id):
         return f"{UPLOADS}/{img_id}.png"
 
-    def resize(self, image):
-        size = 432, 540
+    def resize(self, image, size=(432, 540)):
         image.thumbnail(size, Image.LANCZOS)
         return image
 

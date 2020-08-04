@@ -48,8 +48,8 @@ class GetImageFromCaption(Resource):
 class ImageCombo(Resource):
     def post(self, parent_id):
         strategy = ComboImage()
-        strategy.call(parent_id)
-        return {'success': True}, 200
+        canvas = strategy.call(parent_id)
+        return serializers.serialize_image(canvas)
 
 
 
